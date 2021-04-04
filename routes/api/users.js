@@ -34,7 +34,7 @@ router.post(
       if (user) {
         return res
           .status(400)
-          .json({ errors: [{ msg: 'User already exists!' }] });
+          .json({ errors: [{ msg: 'Dude, user already exists!' }] });
       }
       // Get user gravatar
       const avatar = normalize(
@@ -59,7 +59,7 @@ router.post(
       await user.save();
 
       // Return jsonwebtoken
-      res.send('Well done! User Registered');
+      res.send('Well done! User Registered!');
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server error...');
