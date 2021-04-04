@@ -12,6 +12,7 @@
 - BcryptJs
 - JSON Web Token
 - Gravatar
+- Normalize-url
 - React
 
 The application is deployed on Heroku. [Here](https://linkfromheroluappHere) is the link!
