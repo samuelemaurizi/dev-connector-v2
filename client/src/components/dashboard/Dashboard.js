@@ -6,6 +6,9 @@ import { connect } from 'react-redux';
 // REDUX
 import { getCurrentProfile } from '../../actions/profile';
 
+// COMPONENTS
+import DashboardActions from './DashboardActions';
+
 const Dashboard = ({
   getCurrentProfile,
   auth: { user },
@@ -23,7 +26,9 @@ const Dashboard = ({
         <i className='fas fa-user'></i> Welcome {user && user.name}
       </p>
       {profile !== null ? (
-        <>has</>
+        <>
+          <DashboardActions/>
+        </>
       ) : (
         <>
           <p>You have not yet setup a profile, please add some info</p>

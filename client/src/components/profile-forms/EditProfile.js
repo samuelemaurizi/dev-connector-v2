@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createProfile } from '../../actions/profile';
+import { createProfile, getCurrentProfile } from '../../actions/profile';
 
-const CreateProfile = ({ createProfile, history }) => {
-  const [formData, setFormData] = useState({
+const initialState = {
     company: '',
     website: '',
     location: '',
@@ -18,8 +17,27 @@ const CreateProfile = ({ createProfile, history }) => {
     linkedin: '',
     youtube: '',
     instagram: '',
-  });
+  }
+
+const EditProfile = ({ profile: {profile, loading}, createProfile, getCurrentProfile, history }) => {
+  const [formData, setFormData] = useState(initialState);
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
+
+  useEffect(() => {
+    if(!profile) getCurrentProfile()
+    if(!loading && profile) {
+      const profileData = {...initialState}
+      for(const key in profile){
+        if(key in profileData) profileData[key] = profile[key]
+      }
+      for(const key in profile.social){
+        if(key in profileData) profileData[key] = profile.social[key]
+      }
+      if(Array.isArray(profileData.skills)) profileData.skills = profileData.skills.join(setFormData(profileData))
+    }
+
+
+  }, [loading, getCurrentProfile, profile])
 
   const {
     company,
@@ -41,15 +59,14 @@ const CreateProfile = ({ createProfile, history }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    createProfile(formData, history);
+    createProfile(formData, history, true);
   };
 
   return (
     <>
-      <h1 className='large text-primary'>Create Your Profile</h1>
+      <h1 className='large text-primary'>Edit Your Profile</h1>
       <p className='lead'>
-        <i className='fas fa-user'></i> Let's get some information to make your
-        profile stand out
+        <i className='fas fa-user'></i> Add some changes to your profile
       </p>
       <small>* = required field</small>
       <form className='form' onSubmit={onSubmit}>
@@ -219,12 +236,14 @@ const CreateProfile = ({ createProfile, history }) => {
   );
 };
 
-CreateProfile.propTypes = {
+EditProfile.propTypes = {
   createProfile: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
 };
 
-// const mapStateToProps = state => ({
-//   profile: state.profile
-// })
+const mapStateToProps = state => ({
+  profile: state.profile
+})
 
-export default connect(null, { createProfile })(withRouter(CreateProfile));
+export default connect(mapStateToProps, { createProfile, getCurrentProfile })(withRouter(EditProfile));
