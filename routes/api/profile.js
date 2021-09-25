@@ -63,7 +63,7 @@ router.post(
     } = req.body;
 
     // Build profile object
-    // For the skills we take the string, split that so we can have an array
+    // For the skills we take the string, we split it so we can have an array
     const profileFields = {};
     profileFields.user = req.user.id;
     if (company) profileFields.company = company;
