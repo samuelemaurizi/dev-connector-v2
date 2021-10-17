@@ -5,6 +5,8 @@ import {
   UPDATE_LIKES,
   DELETE_POST,
   POST_ERROR,
+  ADD_COMMENT,
+  REMOVE_COMMENT,
 } from '../actions/types';
 
 const initialState = {
@@ -54,6 +56,23 @@ function postReducer(state = initialState, action) {
       return {
         ...state,
         error: payload,
+        loading: false,
+      };
+    case ADD_COMMENT:
+      return {
+        ...state,
+        posts: { ...state.post, comments: payload },
+        loading: false,
+      };
+    case REMOVE_COMMENT:
+      return {
+        ...state,
+        post: {
+          ...state.post,
+          comments: state.post.comments.map(
+            (comment) => comment._id !== payload
+          ),
+        },
         loading: false,
       };
     default:
