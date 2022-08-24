@@ -15,9 +15,6 @@
 - Normalize-url
 - React
 
-The application is deployed on Heroku. [Here](https://linkfromheroluappHere) is the link!
-
 #### Dev Packages
 
-- Chalk
 - ...
